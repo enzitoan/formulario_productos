@@ -8,17 +8,26 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-	
 	<style>
-		.div-tbl-productos {
+		#div-productos {
 			height: 200px;
 			overflow: auto;
 		}
+	
+		.producto-label {
+			padding-left: 1em;
+		}
 
-		.vcenter {
-		    display: inline-block;
-		    vertical-align: middle;
-		    float: none;
+		.contador-producto {
+			float: right;
+		}
+
+		.contador-producto input {
+			width: 35px;
+			margin-left: 5px;
+			margin-right: 5px;
+			border: none;
+			font-weight: bold;
 		}
 	</style>
 </head>
@@ -87,130 +96,7 @@
 					<h4 class="modal-title">Productos</h4>
 				</div>
 				<div class="modal-body">
-<!-- 					<div class="row">
-						<div class="col-md-8">
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" value="">
-									Producto1
-								</label>
-							</div>
-						</div>
-						<div class="col-md-4"></div>
-					</div>
-					<div class="row">
-						<div class="col-md-8">
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" value="">
-									Producto1
-								</label>
-							</div>
-						</div>
-						<div class="col-md-4"></div>
-					</div>
-					<div class="row">
-						<div class="col-md-8">
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" value="">
-									Producto1
-								</label>
-							</div>
-						</div>
-						<div class="col-md-4"></div>
-					</div>
-					<div class="row">
-						<div class="col-md-8">
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" value="">
-									Producto1
-								</label>
-							</div>
-						</div>
-						<div class="col-md-4"></div>
-					</div> -->
-					<div class="div-tbl-productos">						
-						<table class="table table-condensed">
-							<tbody>
-								<tr>
-									<td>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" value="">
-												Producto 1
-											</label>
-										</div>
-									</td>
-									<td></td>
-									<td>
-										0
-									</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" value="">
-												Producto 2
-											</label>
-										</div>
-									</td>
-									<td></td>
-									<td>
-										0
-									</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" value="">
-												Producto 3
-											</label>
-										</div>
-									</td>
-									<td></td>
-									<td>
-										
-									</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" value="">
-												Producto 4
-											</label>
-										</div>
-									</td>
-									<td></td>
-									<td>
-										0
-									</td>
-									<td></td>
-								</tr>
-								<tr>
-									<td>
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" value="">
-												Producto 5
-											</label>
-										</div>
-									</td>
-									<td></td>
-									<td>
-										0
-									</td>
-									<td></td>
-								</tr>
-							</tbody>
-						</table>
+					<div id="div-productos">						
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -222,9 +108,98 @@
 	</div>
 
 	<script type="text/javascript">
+		var aProductos = [];
+		var oProductos = {};
+
+		var cargaProductos = function() {
+
+			var ul = $('<ul></ul>');
+			$(ul).addClass('list-group');
+
+			for (i = 1; i <= 10; i++) {
+				var li = $('<li></li>');
+				$(li).attr({
+					id: 'producto_' + i,
+					class: 'list-group-item'
+				});
+
+				var chkProducto = $("<input type='checkbox' class='producto_chk' id='chk_producto_" + i + "' name='chk_producto_" + i + "' value=''>");
+				
+				var chkLabel = $("<label> Producto " + i + "</label>");	
+				$(chkLabel).addClass('producto-label');
+
+				//var lblRestar = $("<label> - </label>");
+				var lblRestar = $("<span class='glyphicon glyphicon-minus' data-id-producto='" + i + "' aria-hidden='true'></span>");
+				//var lblSumar = $("<label> + </label>");
+				var lblSumar = $("<span class='glyphicon glyphicon-plus' data-id-producto='" + i + "' aria-hidden='true'></span>");
+
+				var inpContador = $("<input type='text' name='' value='' class='' placeholder=''>");
+				$(inpContador).attr('id', 'can_productos' + i);
+				$(inpContador).addClass('text-center');
+				$(inpContador).val(0);
+
+				var divContador =  $("<div></div>");
+				$(divContador).addClass('contador-producto');
+
+				$(divContador).append($(lblRestar));
+				$(divContador).append($(inpContador));
+				$(divContador).append($(lblSumar));
+				
+				$(li).append($(chkProducto));
+				$(li).append($(chkLabel));
+				$(li).append($(divContador));
+
+				$(chkProducto).click(function(event) {
+					alert($(this).attr('id'));
+				});
+
+				$(lblRestar).click(function(event) {
+					var idProducto = $(this).data('id-producto');
+					var canProducto = $('#can_productos' + idProducto).val();
+					$('#can_productos' + idProducto).val(restarProductos(canProducto));
+
+					console.log(canProducto);
+				});
+
+				$(lblSumar).click(function(event) {
+					var idProducto = $(this).data('id-producto');
+					var canProducto = $('#can_productos' + idProducto).val();
+					$('#can_productos' + idProducto).val(sumarProductos(canProducto));
+					console.log(canProducto);
+				});
+
+				$(ul).append($(li));
+			}
+
+			$('#div-productos').append($(ul));
+			
+			$('#modal-id').modal('show');
+		};
+
+		var sumarProductos = function(cantidad) {
+			var can = cantidad;
+			can++;
+			return can;
+		};
+
+		var restarProductos = function(cantidad) {
+			var can = cantidad;
+			can--;
+
+			if (can < 0) {
+				can = 0;
+			}
+
+			return can;			
+		};
+
+		var guardarProductos = function() {
+
+		};
+
 		$(document).ready(function() {
 			$('#btn-productos').click(function(event) {
-				$('#modal-id').modal('show');
+				cargaProductos();				
 			});
 		});
 	</script>
