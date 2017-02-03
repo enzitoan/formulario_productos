@@ -123,45 +123,70 @@
 					class: 'list-group-item'
 				});
 
-				var chkProducto = $("<input type='checkbox' class='producto_chk' id='chk_producto_" + i + "' name='chk_producto_" + i + "' value=''>");
-				
+				var chkProducto = $("<input type='checkbox'>");
+				$(chkProducto).prop('id', 'chk_producto_' + i);
+				$(chkProducto).prop('value', i);
+				$(chkProducto).addClass('producto-chk');
+
 				var chkLabel = $("<label> Producto " + i + "</label>");	
 				$(chkLabel).addClass('producto-label');
 
-				//var lblRestar = $("<label> - </label>");
-				var lblRestar = $("<span class='glyphicon glyphicon-minus' data-id-producto='" + i + "' aria-hidden='true'></span>");
-				//var lblSumar = $("<label> + </label>");
-				var lblSumar = $("<span class='glyphicon glyphicon-plus' data-id-producto='" + i + "' aria-hidden='true'></span>");
+				var lnkRestar = $("<a></a>");
+				$(lnkRestar).data('id-producto', i);
+				$(lnkRestar).addClass('restar-producto');
+				var iconRestar = $("<span class='glyphicon glyphicon-minus' aria-hidden='true'></span>");
+				$(lnkRestar).append($(iconRestar));
 
-				var inpContador = $("<input type='text' name='' value='' class='' placeholder=''>");
-				$(inpContador).attr('id', 'can_productos' + i);
+				var lnkSumar = $("<a></a>");
+				$(lnkSumar).data('id-producto', i);
+				$(lnkSumar).addClass('sumar-producto');
+				var iconSumar = $("<span class='glyphicon glyphicon-plus' aria-hidden='true'></span>");
+				$(lnkSumar).append($(iconSumar));
+
+				var inpContador = $("<input type='text'>");
+				$(inpContador).prop('id', 'can_productos' + i);
 				$(inpContador).addClass('text-center');
 				$(inpContador).val(0);
 
 				var divContador =  $("<div></div>");
-				$(divContador).addClass('contador-producto');
+				$(divContador).prop('id', 'div-contador-producto' + i);
+				$(divContador).data('id-producto', i);
+				$(divContador).addClass('contador-producto disabled');
 
-				$(divContador).append($(lblRestar));
+				$(divContador).append($(lnkRestar));
 				$(divContador).append($(inpContador));
-				$(divContador).append($(lblSumar));
+				$(divContador).append($(lnkSumar));
 				
 				$(li).append($(chkProducto));
 				$(li).append($(chkLabel));
 				$(li).append($(divContador));
 
 				$(chkProducto).click(function(event) {
-					alert($(this).attr('id'));
+					var idProducto = $(divContador).prop('id', 'div-contador-producto' + i);
+					console.log($(this).data('id-producto'));
+					if ($(divContador).hasClass('disabled')) {
+						$(divContador).removeClass('disabled');
+					} else {
+						$(divContador).addClass('disabled');
+					}
 				});
 
-				$(lblRestar).click(function(event) {
+				$(lnkRestar).click(function(event) {
+					console.log($(this).parent());
+					if ($(this).parent().hasClass('disabled')) {
+						return false;
+					}
 					var idProducto = $(this).data('id-producto');
 					var canProducto = $('#can_productos' + idProducto).val();
 					$('#can_productos' + idProducto).val(restarProductos(canProducto));
-
 					console.log(canProducto);
 				});
 
-				$(lblSumar).click(function(event) {
+				$(lnkSumar).click(function(event) {
+					console.log($(this).parent());
+					if ($(this).parent().hasClass('disabled')) {
+						return false;
+					}
 					var idProducto = $(this).data('id-producto');
 					var canProducto = $('#can_productos' + idProducto).val();
 					$('#can_productos' + idProducto).val(sumarProductos(canProducto));
