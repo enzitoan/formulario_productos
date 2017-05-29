@@ -38,7 +38,7 @@
 	<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-			<h4>Productos</h4>			
+			<h4>Productos Rev</h4>			
 		</div>
 	</div>
 	<div class="row">
