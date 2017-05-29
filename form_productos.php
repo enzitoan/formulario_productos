@@ -176,7 +176,8 @@
 					}
 				});
 
-				$(lnkRestar).click(function(event) {
+				$('.restar-producto').click(function(event) {
+					event.preventDefault();
 					console.log($(this).parent());
 					if ($(this).parent().hasClass('disabled')) {
 						return false;
@@ -185,9 +186,11 @@
 					var canProducto = $('#can_productos' + idProducto).val();
 					$('#can_productos' + idProducto).val(restarProductos(canProducto));
 					console.log(canProducto);
+					return false;
 				});
 
-				$(lnkSumar).click(function(event) {
+				$('.sumar-producto').click(function(event) {
+					event.preventDefault();
 					console.log($(this).parent());
 					if ($(this).parent().hasClass('disabled')) {
 						return false;
@@ -196,6 +199,7 @@
 					var canProducto = $('#can_productos' + idProducto).val();
 					$('#can_productos' + idProducto).val(sumarProductos(canProducto));
 					console.log(canProducto);
+					return false;
 				});
 
 				$(ul).append($(li));
