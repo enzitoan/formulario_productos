@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<?php echo "version 1.0.0" ?>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title></title>
